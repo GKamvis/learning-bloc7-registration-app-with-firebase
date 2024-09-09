@@ -6,7 +6,7 @@ import '../cubit/search_Repo_cubit.dart';
 
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +16,15 @@ class HomePage extends StatelessWidget {
         BlocProvider(create: (context) => SearchCubit()),
       ],
       child: Scaffold(
+        backgroundColor: Colors.grey[300],
         appBar: AppBar(
+          backgroundColor: Colors.grey[300],
+          automaticallyImplyLeading: false,
           title: BlocBuilder<SearchCubit, bool>(
             builder: (context, showSearch) {
               return showSearch
                   ? TextField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Search...',
                       ),
                       onChanged: (newQuery) {
@@ -32,7 +35,7 @@ class HomePage extends StatelessWidget {
                         context.read<HomePageCubit>().findPerson(newQuery);
                       },
                     )
-                  : Text('Home Page');
+                  : const Text('Home Page');
             },
           ),
           actions: [
@@ -45,7 +48,7 @@ class HomePage extends StatelessWidget {
                       context.read<HomePageCubit>().getPerson();
                     }
                   },
-                  icon: showSearch ? Icon(Icons.cancel) : Icon(Icons.search),
+                  icon: showSearch ? const Icon(Icons.cancel) : const Icon(Icons.search),
                 );
               },
             ),
@@ -66,29 +69,54 @@ class HomePage extends StatelessWidget {
                         context.read<HomePageCubit>().getPerson();
                       });
                     },
-                    child: Card(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(person.name),
-                          Text(person.phone),
-                          SizedBox(height: 50),
-                          IconButton(
-                            onPressed: () {
-                              context
-                                  .read<HomePageCubit>()
-                                  .deletePerson(person.id);
-                            },
-                            icon: Icon(Icons.delete),
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: Container(
+  margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 10), // Daha böyük boşluq
+  padding: const EdgeInsets.all(16), // İçəridə boşluq
+  decoration: BoxDecoration(
+    color: Colors.grey[300],
+    borderRadius: const BorderRadius.all(
+      Radius.circular(12), // Daha kiçik border radius
+    ),
+    boxShadow: const [
+      BoxShadow(
+        color: Colors.grey, // Kölgə
+        offset: Offset(6.0, 6.0),
+        spreadRadius: 2.0,
+        blurRadius: 20.0,
+      ),
+      BoxShadow(
+        color: Colors.white, // İşıq effekti
+        offset: Offset(-6.0, -6.0),
+        blurRadius: 20.0,
+        spreadRadius: 2.0,
+      ),
+    ],
+  ),
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(left: 18.0),
+        child: Text(person.name, style: TextStyle(fontSize: 16)), // Daha böyük mətn
+      ),
+      Text(person.phone, style: TextStyle(fontSize: 16)), // Daha böyük mətn
+      IconButton(
+        onPressed: () {
+          context.read<HomePageCubit>().deletePerson(person.id);
+        },
+        icon: const Icon(Icons.delete),
+      ),
+    ],
+  ),
+)
+
+                    
                   );
+                
                 },
               );
             } else {
-              return Center(
+              return const Center(
                 child: Text('No results found.'),
               );
             }

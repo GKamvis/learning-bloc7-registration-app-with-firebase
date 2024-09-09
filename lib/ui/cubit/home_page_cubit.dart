@@ -25,7 +25,9 @@ class HomePageCubit extends Cubit<List<People>> {
     });
   }
 
-  Future<void> deletePerson(String id) async {}
+  Future<void> deletePerson(String id) async {
+    await collectionPeople.doc(id).delete();
+  }
 
   Future<void> findPerson(String query) async {
     collectionPeople.snapshots().listen((event) {
