@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
           '/update': (context) => const UpdatePage(),
           '/home': (context) => MyBottomNavigation(),
           '/bottomnavigation': (context) => MyBottomNavigation(),
-          '/homePage': (context) => HomePage(),
+          '/homePage': (context) => const HomePage(),
           '/forgot': (context) => const ForgotPasswordPage(),
           '/register': (context) => const RegistrationPage(),
           '/auth': (context) => const AutherizationPage(),
